@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 from . import settings_common, settings_dev
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('schedule.urls')),
     path('accounts/', include('allauth.urls')),
+    path('accounts/signup/', TemplateView.as_view(template_name='signup.html'), name='signup'),
 ]
 
 
