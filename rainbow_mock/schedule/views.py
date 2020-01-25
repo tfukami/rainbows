@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib import messages
 from django.db import connection
-from .forms import InquiryForm
+from .forms import InquiryForm, ScheduleSettingFormSet
 from .models import Schedules, Friends
 import logging
 
@@ -29,6 +29,19 @@ class InquiryView(generic.FormView):
         messages.success(self.request, 'メッセージを送信しました．')
         logger.info('Inquiry sent by {}'.format(form.cleaned_data['name']))
         return super().form_valid(form)
+
+
+def add(request):
+    formset = ScheduleSettingFormSet(request.POST or None, queryset=Schedules.objects.filter(user=request.user))
+    if request.method == 'POST':
+        formset.save()
+        return redirect('schedule:index')
+
+    context = {
+        'formset': formset
+    }
+
+    return render(request, 'schedule_setting.html', context)
 
 
 class ScheduleView(LoginRequiredMixin, generic.ListView):
