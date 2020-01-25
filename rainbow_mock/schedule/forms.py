@@ -1,5 +1,6 @@
 from django import forms
 from django.core.mail import EmailMessage
+from .models import Schedules
 
 
 class InquiryForm(forms.Form):
@@ -41,3 +42,20 @@ class InquiryForm(forms.Form):
 
         message = EmailMessage(subject=subject, body=message, from_email=from_email, to=to_list, cc=cc_list)
         message.send()
+
+
+class ScheduleSettingForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Schedules
+        fields = '__all__'
+
+
+ScheduleSettingFormSet = forms.modelformset_factory(
+    Schedules, form=ScheduleSettingForm, extra=0
+)
