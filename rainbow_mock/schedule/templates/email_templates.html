@@ -1,28 +1,21 @@
-{% load static %}
-{% block title %}Web上でママ・パパ友とスケジュールを共有できるサービス | Private Schedule{% endblock %}
-
-{% block header %}
 <header class="masthead text-center text-white">
     <h1 class="masthead-heading mb-0">Private Schedule</h1>
 </header>
-{% endblock %}
 
-{% block contents %}
 <section>
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 order-lg-2">
                 <div class="p-5">
-                    <img class="img-fluid rounded-circle" src="{% static 'img/01.jpg' %}" alt="">
+                    <img class="img-fluid rounded-circle" src="{{mail_url}}static/img/01.jpg" alt="">
                 </div>
             </div>
             <div class="col-lg-6 order-lg-1">
                 <div class="p-5">
-                    <h2 class="display-4"><a href="{% url 'schedule:schedule_index' %}">Web Schedule</a></h2>
+                    <h2 class="display-4"><a href='{{mail_url}}index.html'>Web Schedule</a></h2>
                     <p>Web上で共有できるスケジュール</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}

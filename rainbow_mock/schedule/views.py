@@ -97,6 +97,7 @@ class ScheduleView(LoginRequiredMixin, generic.ListView):
 
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect
+from django.template.loader import render_to_string
 
 
 def mail_test(request):
@@ -111,5 +112,9 @@ def mail_test(request):
         "{}".format(os.environ.get('FROM_EMAIL'))
     ]
 
-    send_mail(subject, message, from_email, recipient_list, html_message='templates/email_templates.html',)
+    context = {
+        'mail_url': '{}'.format(os.environ.get('URL'))
+    }
+    msg_html = render_to_string('email_templates.html', context)
+    send_mail(subject, message, from_email, recipient_list, html_message=msg_html,)
     return HttpResponse('<h1>email send complete.</h1>')
