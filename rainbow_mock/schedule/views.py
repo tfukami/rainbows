@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db import connection
 from .forms import InquiryForm, ScheduleSettingFormSet
 from .models import Schedules, Friends
+import os
 import logging
 
 from django.urls import reverse_lazy
@@ -104,11 +105,11 @@ def mail_test(request):
     """本文"""
     message = "本文です\nこんにちは。メールを送信しました"
     """送信元メールアドレス"""
-    from_email = "information@myproject"
+    from_email = "{}".format(os.environ.get('FROM_EMAIL'))
     """宛先メールアドレス"""
     recipient_list = [
-        ""
+        "{}".format(os.environ.get('FROM_EMAIL'))
     ]
 
-    send_mail(subject, message, from_email, recipient_list)
+    send_mail(subject, message, from_email, recipient_list, html_message='templates/email_templates.html',)
     return HttpResponse('<h1>email send complete.</h1>')
